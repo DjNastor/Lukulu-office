@@ -1,1 +1,5 @@
-{"framework":null,"buildCommand":"mkdir -p public && cp index.html Lukulu-Consolidated-Control.html public/","outputDirectory":"public"}
+{
+  "framework": null,
+  "buildCommand": "mkdir -p public && cp index.html public/index.html",
+  "outputDirectory": "public"
+}

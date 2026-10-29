@@ -22,7 +22,7 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
-          cp index.html Lukulu-Consolidated-Control.html _site/
+          cp index.html _site/index.html
           touch _site/.nojekyll
       - name: Configure Pages
         uses: actions/configure-pages@v5
