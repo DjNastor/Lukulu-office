@@ -3,6 +3,8 @@ on:
   push:
     branches: ["apk/lukulu-hq-v39-20261029"]
   workflow_dispatch:
+  pull_request:
+    branches: ["upgrade/v39-release-desk-20261029"]
 permissions:
   contents: read
 jobs:
