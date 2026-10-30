@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08090d">
+<meta name="description" content="Lukulu Recordings — V41 operations control for label releases, artist roster, social review and integration health.">
+<title>Lukulu HQ V41 | Operations Control</title>
+<style>
+:root{color-scheme:dark;--bg:#08090d;--panel:#12151c;--panel2:#191d25;--line:#323640;--gold:#d7b461;--text:#f1f2f5;--muted:#acb0bd;--green:#78d8b3;--amber:#f2c779}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{background:radial-gradient(ellipse at 90% 0%,#332a1c 0,transparent 38%),var(--bg);margin:0;color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--gold);text-underline-offset:3px}a:hover{color:#ffe3a2}button,input,textarea,select{font:inherit}button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #f5d88c;outline-offset:3px}
+.container{max-width:1180px;margin:auto;padding:0 22px}.top{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:22px 0;border-bottom:1px solid var(--line)}
+.mark{display:flex;gap:13px;align-items:center;font-weight:850;letter-spacing:.1em;font-size:15px}.monogram{display:grid;place-items:center;width:40px;height:40px;border:2px solid var(--gold);border-radius:12px;color:var(--gold);font-size:20px}
+.eyebrow{text-transform:uppercase;letter-spacing:.18em;color:var(--gold);font-size:11px;font-weight:800}.hero{padding:42px 0 22px}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.1;margin:8px 0 10px;letter-spacing:-.04em}h2{font-size:23px;margin:0 0 12px;letter-spacing:-.02em}h3{margin:0 0 8px;font-size:16px}
+.sub{color:var(--muted);max-width:780px;margin:0}.notice{padding:12px 16px;border:1px solid #66572f;background:#231f17;border-radius:12px;color:#f4e4b9;margin:22px 0}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0}.nav button{background:#161922;border:1px solid #333743;border-radius:999px;color:#cdd0d8;padding:10px 16px;font-weight:700}.nav button[aria-selected=true]{background:var(--gold);border-color:var(--gold);color:#101012}
+.view[hidden]{display:none}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{background:linear-gradient(155deg,#171920,#101217);border:1px solid var(--line);border-radius:17px;padding:22px;min-width:0}
+.card p{color:var(--muted);margin:5px 0 15px}.metric{font-size:32px;font-weight:800;letter-spacing:-.03em}.status{font-size:12px;font-weight:700;border:1px solid #676047;padding:4px 9px;border-radius:99px;display:inline-block;color:#f2cf83}.good{color:var(--green);border-color:#366f5c}.muted{color:var(--muted)}.gap{height:22px}
+.links{display:flex;flex-wrap:wrap;gap:10px}.link{display:inline-flex;align-items:center;text-decoration:none;border:1px solid #4d4840;border-radius:10px;padding:9px 13px;color:#f7d894;background:#242019}
+.btn{border:1px solid #736038;color:#0e1014;background:var(--gold);padding:10px 15px;border-radius:10px;font-weight:750}.btn.secondary{background:var(--panel2);color:var(--text);border-color:#555b68}.btn.danger{background:transparent;color:#ffbcb9;border-color:#9c5a5a}
+form{display:grid;gap:11px}label{display:block;font-weight:650;color:#e6e7ec}input,textarea,select{display:block;background:#0a0c11;border:1px solid #545967;color:#fff;border-radius:9px;padding:11px 12px;width:100%;margin-top:5px}textarea{resize:vertical;min-height:104px}
+fieldset{border:1px solid var(--line);border-radius:12px;margin:14px 0;padding:9px 15px}legend{font-weight:800;padding:0 8px}.check{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #292c34;font-weight:550}.check:last-child{border-bottom:0}.check input{margin:4px 0 0;width:auto;accent-color:#e0be69}.hint{font-size:13px;color:var(--muted)}.row{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}.mini{font-size:12px;color:var(--muted)}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;border-bottom:1px solid #343843;padding:11px 12px;vertical-align:top}th{color:#f3d48b;font-size:12px;letter-spacing:.06em;text-transform:uppercase}td{color:#d4d6df}.scroll{overflow:auto}.item{border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0;background:#151820;overflow-wrap:anywhere}.item strong{display:block;margin-bottom:6px}.item .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.item .content{white-space:pre-wrap;color:#e2e3e9}.footer{border-top:1px solid var(--line);padding:22px 0 40px;margin-top:38px;color:var(--muted);font-size:12px}
+.output{padding:10px 0;color:var(--green);min-height:25px}.button-row{display:flex;gap:9px;flex-wrap:wrap}.hide{display:none}.chip{font-size:12px;color:var(--green);border:1px solid #386752;border-radius:30px;padding:3px 8px}
+@media(max-width:760px){.grid,.grid.two{grid-template-columns:1fr}.top{align-items:flex-start}.container{padding:0 14px}.hero{padding-top:26px}.card{padding:17px}.nav{display:grid;grid-template-columns:repeat(2,1fr)}.nav button{border-radius:10px}.top .link{font-size:12px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="container">
+<header class="top"><div class="mark"><span class="monogram" aria-hidden="true">L</span><span>LUKULU HQ<br><span class="mini">RECORDINGS · V41</span></span></div><a class="link" href="./index.html">← Original HQ</a></header>
+<main>
+<section class="hero"><div class="eyebrow">Label Office / Operations</div><h1>One label. One control desk.</h1><p class="sub">Release readiness, artist verification, social approvals and integration tracking — designed to work beside the original Lukulu HQ. The workspace keeps drafts on this device; it does not secretly connect to Airtable or publish to third-party services.</p></section>
+<div class="notice" role="note"><strong>Data transparency:</strong> service statuses below are a manually reviewed snapshot from 29 October 2026, not a live API feed. <strong>Local drafts are device-only</strong> until you export them. Use source links for current records and actions.</div>
+<nav class="nav" role="tablist" aria-label="Operations modules">
+<button type="button" role="tab" aria-selected="true" aria-controls="overview" id="tab-overview" data-tab="overview">Overview</button>
+<button type="button" role="tab" aria-selected="false" aria-controls="releases" id="tab-releases" data-tab="releases">Release checks</button>
+<button type="button" role="tab" aria-selected="false" aria-controls="artists" id="tab-artists" data-tab="artists">Artist roster</button>
+<button type="button" role="tab" aria-selected="false" aria-controls="social" id="tab-social" data-tab="social">Social drafts</button>
+<button type="button" role="tab" aria-selected="false" aria-controls="integrations" id="tab-integrations" data-tab="integrations">Integrations</button>
+<button type="button" role="tab" aria-selected="false" aria-controls="backups" id="tab-backups" data-tab="backups">Backup</button>
+</nav>
+<section class="view" id="overview" role="tabpanel" aria-labelledby="tab-overview">
+<div class="grid">
+<article class="card"><div class="eyebrow">Artist roster</div><div class="metric">6</div><p>Entries staged in Airtable. Artist representation remains to be verified before promotion.</p><span class="status">Needs review</span></article>
+<article class="card"><div class="eyebrow">Artist Growth</div><div class="metric">0</div><p>Accessible artist profiles at last check. API responded; connected account needs access.</p><span class="status">Not linked</span></article>
+<article class="card"><div class="eyebrow">Beevi / TikTok</div><div class="metric">1</div><p>DJ Nastor TikTok connected in Beevi. No posts existed at last check. Manual approval required.</p><span class="status good">Connected</span></article>
+</div>
+<div class="gap"></div><div class="grid two">
+<article class="card"><h2>Workspaces</h2><p>Go to the verified source records. Editing in Airtable does not automatically alter this device's local drafts.</p><div class="links"><a class="link" target="_blank" rel="noopener noreferrer" href="https://airtable.com/appR1QE70amevvq5y/pagV3hoHGzB7GZC7A/edit">Artist Roster</a><a class="link" target="_blank" rel="noopener noreferrer" href="https://airtable.com/appR1QE70amevvq5y/pagBnhLJ13ERogCq1/edit">Integration Health</a><a class="link" target="_blank" rel="noopener noreferrer" href="https://airtable.com/appR1QE70amevvq5y/pagxGKNGdSGAv3Gus/edit">Social Campaigns</a><a class="link" target="_blank" rel="noopener noreferrer" href="https://airtable.com/appR1QE70amevvq5y/pag21Vs9lLh5ptg7z/edit">Post Review</a></div></article>
+<article class="card"><h2>Release workflow</h2><p>Prepare metadata and rights; review approvals; submit through your distributor's authorised interface. This panel never asserts that a release has been delivered.</p><div class="links"><a class="link" target="_blank" rel="noopener noreferrer" href="https://airtable.com/appR1QE70amevvq5y/pagxhRPxkA3WmKr8a/edit">Release Desk</a><a class="link" target="_blank" rel="noopener noreferrer" href="https://airtable.com/appR1QE70amevvq5y/pagAaIZqoHf2hz1Ep/edit">Import Review</a><a class="link" target="_blank" rel="noopener noreferrer" href="https://airtable.com/appR1QE70amevvq5y/pagytGkHwm1G2hW5h/edit">Rights Registrations</a></div></article>
+</div>
+</section>
+<section class="view" id="releases" role="tabpanel" aria-labelledby="tab-releases" hidden>
+<div class="grid two"><article class="card"><h2>Local release checklist</h2><label for="release-title">Release being prepared</label><input id="release-title" maxlength="120" placeholder="Enter a release title (not submitted anywhere)"><p class="hint">Eight gates before a release can be submitted. Checking a box records only local progress, not a real-world approval.</p><fieldset><legend>Required checks</legend><div id="checklist"></div></fieldset><div class="row"><strong id="release-progress">0 of 8 marked</strong><button class="btn secondary" type="button" id="reset-release">Reset checklist</button></div></article><article class="card"><h2>Authorisation boundary</h2><p>Release distribution remains a manual, authorised action in Paradise Direct Pro or other configured providers. No distributor API access is claimed by this preview.</p><p>Split sheets, ISRC / UPC, artist permissions, audio, artwork, rights and final release dates must be verified in the relevant source.</p><a class="link" target="_blank" rel="noopener noreferrer" href="https://airtable.com/appR1QE70amevvq5y/pagxhRPxkA3WmKr8a/edit">Open Airtable Release Desk</a></article></div>
+</section>
+<section class="view" id="artists" role="tabpanel" aria-labelledby="tab-artists" hidden>
+<article class="card"><h2>Artist roster — review required</h2><p>Source: Lukulu HQ Airtable staging records created from label partnership correspondence. These are not confirmed Artist Growth profiles or proof of signed representation.</p><div class="scroll"><table><thead><tr><th>Artist</th><th>Verification</th><th>Artist Growth</th></tr></thead><tbody>
+<tr><td>DJ Nastor</td><td>Needs confirmation</td><td>Not linked</td></tr>
+<tr><td>Vorn Annunaki</td><td>Needs confirmation</td><td>Not linked</td></tr>
+<tr><td>Dubnakave</td><td>Needs confirmation</td><td>Not linked</td></tr>
+<tr><td>Da Cord</td><td>Needs confirmation</td><td>Not linked</td></tr>
+<tr><td>Aquatic</td><td>Needs confirmation</td><td>Not linked</td></tr>
+<tr><td>DJ Mbuso</td><td>Needs confirmation</td><td>Not linked</td></tr>
+</tbody></table></div><div class="gap"></div><div class="links"><a class="link" href="https://airtable.com/appR1QE70amevvq5y/pagV3hoHGzB7GZC7A/edit" target="_blank" rel="noopener noreferrer">Verify in Airtable</a><a class="link" href="https://app.artistgrowth.com" target="_blank" rel="noopener noreferrer">Open Artist Growth</a></div></article>
+</section>
+<section class="view" id="social" role="tabpanel" aria-labelledby="tab-social" hidden>
+<div class="grid two"><article class="card"><h2>Prepare a social post</h2><p>Draft here first. This creates a <strong>local-only draft</strong>. It does not send to Beevi or Metricool.</p><form id="social-form"><label for="post-title">Internal title<input id="post-title" maxlength="100" required placeholder="e.g. Release teaser"></label><label for="post-platform">Channel<select id="post-platform"><option>TikTok</option><option>Instagram</option><option>Facebook</option><option>YouTube</option><option>Other</option></select></label><label for="post-caption">Caption<textarea id="post-caption" maxlength="2800" required placeholder="Write the approved label message here..."></textarea></label><button class="btn" type="submit">Save local draft</button></form><p class="hint">Use “Copy caption” below when you are ready to review it in the connected publishing platform.</p></article><article class="card"><h2>Approval rules</h2><p>Saved → Needs review → Approved for preparation. Approval here <strong>does not publish</strong>, schedule, or authorise any third-party action.</p><p>The connected Beevi account is DJ Nastor on TikTok; do not assume it is a dedicated Lukulu Recordings social profile.</p><div class="links"><a class="link" href="https://beevi.ai/workspace/9866b9ec-7d53-4fbf-952f-8be536f439d1/integrations/social" target="_blank" rel="noopener noreferrer">Beevi channels</a><a class="link" href="https://airtable.com/appR1QE70amevvq5y/pag21Vs9lLh5ptg7z/edit" target="_blank" rel="noopener noreferrer">Airtable approval desk</a></div></article></div><div class="gap"></div><article class="card"><div class="row"><h2>Local post drafts</h2><span class="chip" id="draft-count">0 drafts</span></div><div id="draft-list"><p class="muted">No drafts saved on this device.</p></div></article>
+</section>
+<section class="view" id="integrations" role="tabpanel" aria-labelledby="tab-integrations" hidden>
+<div class="grid two">
+<article class="card"><h3>Airtable Label Office <span class="status good">Confirmed</span></h3><p>9 published interface pages as of last review. Source of record for roster, rights, import review and social campaign tracking.</p><a href="https://airtable.com/appR1QE70amevvq5y" target="_blank" rel="noopener noreferrer">Open Airtable</a></article>
+<article class="card"><h3>Beevi <span class="status good">TikTok connected</span></h3><p>Lukulu Recordings workspace: DJ Nastor TikTok was connected. No content was published by this workspace in the last check.</p><a href="https://beevi.ai/workspace/9866b9ec-7d53-4fbf-952f-8be536f439d1/integrations/social" target="_blank" rel="noopener noreferrer">Open Beevi connection settings</a></article>
+<article class="card"><h3>Metricool <span class="status good">Profile verified</span></h3><p>DJ Nastor TikTok brand was visible in Metricool; keep artist and label identities distinct. This page does not provide a live Metricool sync.</p><a href="https://metricool.com" target="_blank" rel="noopener noreferrer">Open Metricool</a></article>
+<article class="card"><h3>Artist Growth <span class="status">Access pending</span></h3><p>The production API responded, but no artists were accessible. Check organisation / People permissions before linking DJ Nastor; do not create duplicates.</p><a href="https://airtable.com/appR1QE70amevvq5y/pagBnhLJ13ERogCq1/edit" target="_blank" rel="noopener noreferrer">Review repair checklist</a></article>
+<article class="card"><h3>Distributor / publishing services <span class="status">Manual verification</span></h3><p>Paradise Direct Pro, Tarret Pro, SAMRO, SAMPRA, CAPASSO and RiSA require authorised data access or manual portal work. No unattended submission is active here.</p></article>
+<article class="card"><h3>Credential safety <span class="status">Action required</span></h3><p>Never paste API secrets into this web page or commit them to GitHub. Rotate any credential previously exposed in chat and store server-side only. No secret is included in this build.</p></article>
+</div>
+</section>
+<section class="view" id="backups" role="tabpanel" aria-labelledby="tab-backups" hidden>
+<article class="card"><h2>Device-local workspace backup</h2><p>Export your release checklist and draft captions as JSON. Import a backup created by this page to restore drafts on this device. This is <strong>not</strong> an Airtable, Beevi or distributor sync.</p><div class="button-row"><button class="btn" id="download-backup" type="button">Download backup JSON</button><label class="btn secondary" for="import-backup" style="cursor:pointer">Import backup JSON<input class="hide" type="file" id="import-backup" accept="application/json,.json"></label><button class="btn danger" type="button" id="clear-data">Clear local drafts</button></div><p class="hint">Imported data is validated and replaces this device's local drafts after a confirmation prompt. Keep backups private; captions may be confidential.</p></article>
+</section>
+<p id="live-message" class="output" role="status" aria-live="polite"></p>
+</main>
+<footer class="footer">Lukulu HQ V41 · Black & Gold · All third-party actions require separate authentication and approval. <a href="./index.html">Back to main HQ</a>.</footer>
+</div>
+<script>
+(function(){
+"use strict";
+var KEY="lukulu-hq-v41-operations";
+var milestones=["Metadata and credits reviewed","ISRC and UPC validated","Master audio and versions checked","Artwork and licensing approved","Split sheets signed","SAMRO / SAMPRA / CAPASSO / RiSA requirements checked","Distributor delivery details verified","Final owner sign-off received"];
+var state={version:1,releaseTitle:"",checks:Array(8).fill(false),drafts:[]};
+function $(id){return document.getElementById(id);}
+function say(s){$("live-message").textContent=s;}
+function safeString(v,n){return typeof v==="string"?v.slice(0,n):"";}
+function validate(data){if(!data||data.version!==1||!Array.isArray(data.checks)||data.checks.length!==8||!Array.isArray(data.drafts)||data.drafts.length>100)throw Error("Not a valid Lukulu HQ V41 backup.");
+return{version:1,releaseTitle:safeString(data.releaseTitle,120),checks:data.checks.map(Boolean),drafts:data.drafts.map(function(d){if(!d||typeof d!=="object"||!["Draft","Needs review","Approved for preparation"].includes(d.status))throw Error("Invalid post draft in backup.");return{id:safeString(d.id,90),title:safeString(d.title,100),platform:safeString(d.platform,30),caption:safeString(d.caption,2800),status:d.status}})};}
+try{var raw=localStorage.getItem(KEY);if(raw)state=validate(JSON.parse(raw));}catch(e){say("Previous local backup could not be read. Export an earlier backup if available.");}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){say("This device cannot save locally. Export the data as a backup instead.");return false}}
+function renderChecks(){var host=$("checklist");host.replaceChildren();milestones.forEach(function(t,i){var label=document.createElement("label");label.className="check";var input=document.createElement("input");input.type="checkbox";input.checked=state.checks[i];input.addEventListener("change",function(){state.checks[i]=input.checked;save();updateProgress();});var span=document.createElement("span");span.textContent=t;label.append(input,span);host.append(label)});updateProgress();$("release-title").value=state.releaseTitle}
+function updateProgress(){var n=state.checks.filter(Boolean).length;$("release-progress").textContent=n+" of "+state.checks.length+" marked locally";}
+$("release-title").addEventListener("input",function(e){state.releaseTitle=safeString(e.target.value,120);save();});
+$("reset-release").addEventListener("click",function(){if(!confirm("Reset all eight local release checks?"))return;state.checks=Array(8).fill(false);save();renderChecks();say("Checklist reset on this device.")});
+function makeButton(text,callback,cls){var b=document.createElement("button");b.type="button";b.className="btn "+(cls||"secondary");b.textContent=text;b.addEventListener("click",callback);return b}
+function renderDrafts(){var host=$("draft-list");host.replaceChildren();$("draft-count").textContent=state.drafts.length+" drafts";
+if(!state.drafts.length){var empty=document.createElement("p");empty.className="muted";empty.textContent="No social drafts saved on this device.";host.append(empty);return;}
+state.drafts.forEach(function(d){var item=document.createElement("article");item.className="item";var title=document.createElement("strong");title.textContent=d.title+" · "+d.platform;
+var status=document.createElement("span");status.className="status";status.textContent=d.status;
+var caption=document.createElement("p");caption.className="content";caption.textContent=d.caption;
+var actions=document.createElement("div");actions.className="actions";
+actions.append(makeButton("Copy caption",function(){if(!navigator.clipboard){say("Clipboard unavailable. Copy manually from the draft.");return;}navigator.clipboard.writeText(d.caption).then(function(){say("Caption copied for manual review.")}).catch(function(){say("Clipboard blocked on this device.")})}));
+if(d.status!=="Approved for preparation")actions.append(makeButton(d.status==="Draft"?"Send to local review":"Approve for preparation",function(){d.status=d.status==="Draft"?"Needs review":"Approved for preparation";save();renderDrafts();say("Local status updated. Nothing was published.")}));
+actions.append(makeButton("Delete",function(){if(!confirm("Delete this local draft?"))return;state.drafts=state.drafts.filter(function(x){return x.id!==d.id});save();renderDrafts();say("Draft deleted locally.")},"danger"));
+item.append(title,status,caption,actions);host.append(item)})}
+$("social-form").addEventListener("submit",function(e){e.preventDefault();var title=safeString($("post-title").value.trim(),100),caption=safeString($("post-caption").value.trim(),2800);if(!title||!caption){say("Add a title and caption.");return;}if(state.drafts.length>=100){say("Maximum 100 device-only drafts. Export and clear old drafts first.");return;}state.drafts.unshift({id:String(Date.now())+"-"+String(Math.random()).slice(2,8),title:title,platform:$("post-platform").value,caption:caption,status:"Draft"});save();renderDrafts();e.target.reset();say("Post saved to this device only. Review before publishing.")});
+document.querySelectorAll('[role="tab"]').forEach(function(button){button.addEventListener("click",function(){var target=button.dataset.tab;document.querySelectorAll('[role="tab"]').forEach(function(b){b.setAttribute("aria-selected",String(b===button))});document.querySelectorAll(".view").forEach(function(p){p.hidden=p.id!==target});say("");});});
+$("download-backup").addEventListener("click",function(){var payload=JSON.stringify(state,null,2);var blob=new Blob([payload],{type:"application/json"});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download="Lukulu-HQ-V41-operations-backup.json";document.body.append(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);say("Backup prepared. Check your device's downloads.");});
+$("import-backup").addEventListener("change",function(e){var file=e.target.files&&e.target.files[0];if(!file)return;if(file.size>500000){say("Backup too large (500 KB maximum).");e.target.value="";return;}file.text().then(function(text){var next=validate(JSON.parse(text));if(!confirm("Replace local drafts and checklist with this backup?"))return;state=next;save();renderChecks();renderDrafts();say("Local backup imported. Nothing synced externally.");}).catch(function(){say("Invalid backup file. No data was changed.");}).finally(function(){e.target.value=""});});
+$("clear-data").addEventListener("click",function(){if(!confirm("Permanently clear all local drafts and checklist progress on this device?"))return;state={version:1,releaseTitle:"",checks:Array(8).fill(false),drafts:[]};save();renderChecks();renderDrafts();say("Local drafts and checks cleared.");});
+renderChecks();renderDrafts();
+})();
+</script>
+</body>
+</html>
