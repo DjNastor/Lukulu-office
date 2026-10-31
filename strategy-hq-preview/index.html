@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lukulu Strategy HQ Public Preview</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1719;--fg:#edf8f1;--line:#345047;--green:#baff72;--muted:#acc6bf}*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 75% 0%,#285b3f70,transparent 40%),var(--bg);font:15px/1.5 system-ui,Arial;color:var(--fg)}
+main{max-width:1080px;margin:auto;padding:22px}header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;border-bottom:1px solid var(--line);padding-bottom:17px}
+header b{font-size:20px}header small{display:block;letter-spacing:2px;color:var(--green)}
+nav{display:flex;gap:7px;flex-wrap:wrap}button{background:#253b36;color:var(--fg);border:1px solid var(--line);padding:12px 16px;min-height:44px;border-radius:10px;font:inherit;font-weight:bold;cursor:pointer}button.active,button.primary{background:var(--green);color:#152414;border-color:var(--green)}
+h1{font-size:clamp(28px,5vw,44px);letter-spacing:-1px;margin:25px 0 8px}h2{font-size:18px;margin:5px 0 12px}
+p{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{border:1px solid var(--line);border-radius:16px;background:#172727;padding:20px}
+label{display:block;font-weight:bold;margin:15px 0 7px}input,textarea,select{display:block;width:100%;border:1px solid #4a7669;background:#0a191a;border-radius:10px;padding:12px;color:var(--fg);font:inherit}textarea{min-height:92px}
+.hidden{display:none}.tag{font-size:12px;color:var(--green);text-transform:uppercase;font-weight:bold;letter-spacing:1px}
+.note{border:1px solid #6e583c;background:#3f321e66;padding:14px;border-radius:13px;margin:18px 0;color:#ffe0a8}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+ol{padding-left:25px}li{margin:9px 0}footer{border-top:1px solid var(--line);margin-top:40px;padding:17px;color:var(--muted);font-size:12px}
+@media(max-width:680px){.grid{grid-template-columns:1fr}main{padding:15px}header{align-items:flex-start}}
+</style></head><body><main>
+<header><div><small>LUKULU RECORDINGS</small><b>Strategy HQ</b></div><nav><button data-page="quick" class="active">Quick Strategy</button><button data-page="studio">Strategy Studio</button><button data-page="analytics">Analytics</button><button data-page="work">My Workflows</button></nav></header>
+<section id="quick"><h1>What do you want to achieve?</h1><p>Choose a label goal and activate a prepared checklist. External actions always require separate approval.</p><div class="card"><label for="goal">Your goal</label><textarea id="goal" placeholder="Get ready to pitch our next track to radio"></textarea><div class="actions"><button id="find" class="primary">Recommend a strategy</button></div></div><h2 style="margin-top:25px">Strategy templates</h2><div id="templates" class="grid"></div></section>
+<section id="studio" class="hidden"><h1>Strategy Studio</h1><p>Describe a more complex result and get an editable, rule-based plan. Manual tools are recommended; no tools are called.</p><div class="card"><label for="complex">Your ambition</label><textarea id="complex" placeholder="Expand radio coverage and grow catalog licensing opportunities"></textarea><label for="horizon">Timeframe</label><select id="horizon"><option value="2">2 weeks</option><option value="4" selected>4 weeks</option><option value="12">12 weeks</option></select><div class="actions"><button id="createPlan" class="primary">Generate strategy</button></div></div><div id="plan"></div></section>
+<section id="analytics" class="hidden"><h1>Measure outcomes</h1><p>Only verified actuals. The preview does not connect to streaming, radio or royalty services.</p><div class="grid"><div class="card"><span class="tag">Active workflows</span><h1 id="count">0</h1></div><div class="card"><span class="tag">Confirmed radio additions</span><h1 id="adds">—</h1></div></div><div class="card" style="margin-top:15px"><h2>Enter verified results</h2><label for="radio">Confirmed radio additions</label><input id="radio" type="number" min="0" step="1" placeholder="Not reported"><label for="income">Verified royalty amount (ZAR)</label><input id="income" type="number" min="0" step=".01" placeholder="Not reported"><div class="actions"><button id="saveActuals" class="primary">Save actuals</button></div><p id="metricNotice"></p></div></section>
+<section id="work" class="hidden"><h1>My Workflows</h1><p>Complete steps, track progress, and keep control of external actions.</p><div id="workflows"></div></section>
+<div class="note">Public demonstration only. Your private catalog and account identifiers are intentionally excluded. Nothing here sends email, publishes posts, submits releases, files rights registrations or runs unattended automations.</div>
+<footer>Lukulu Recordings · Public concept preview · Data is stored only in the current browser.</footer></main>
+<script>
+(function(){
+'use strict';
+var presets=[
+['Radio Plug','Prepare broadcaster submissions',['Select approved recording and check radio edit','Verify recipient submission policy','Draft individual pitches','Obtain exact sending approval','Record verified broadcaster responses'],'radio airplay broadcast pitch station'],
+['Release Launch','Prepare distribution and promotion',['Verify title and artist metadata','Check approved credits and artwork','Validate master and release assets','Review distributor readiness','Measure verified performance'],'release launch distribute album single'],
+['Catalog Quality','Resolve metadata and rights gaps',['Import source and preserve original IDs','Review conflicts and duplicate candidates','Verify writer and artist attributions','Check splits and signed evidence','Prepare rights submission for review'],'catalog metadata isrc rights split'],
+['Social Growth','Build audience and storytelling',['Set one measurable audience goal','Select approved photos and branding','Draft platform-specific posts','Review and approve calendar','Measure confirmed engagement'],'marketing social brand tiktok instagram'],
+['Royalties','Reconcile label income',['Collect period statements','Match recordings and identifiers','Investigate missing royalties','Confirm writer and publisher shares','Record reconciled payments'],'royalty money royalties revenue'],
+['Sync Licensing','Prepare music for licensing briefs',['Confirm both master and publishing permissions','Select matching songs','Prepare cleared media files','Draft pitch pack','Log verified outcomes'],'sync licensing film tv brand'],
+['Artist Development','Develop talent and bookings',['Verify roster representation','Update approved EPK','Qualify suitable opportunities','Draft communication for approval','Track responses and bookings'],'artist gig booking tour']
+];
+var KEY='lukulu-public-strategy-hq-v1',db;
+try{db=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){db={}}
+if(!Array.isArray(db.runs))db.runs=[];if(!db.kpis)db.kpis={};
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function selected(s){var scores=presets.map(function(p){var n=0;p[3].split(' ').forEach(function(k){if(String(s).toLowerCase().indexOf(k)!==-1)n++});return n});var i=scores.indexOf(Math.max.apply(null,scores));return i<0?0:i}
+function start(i,goal,steps){db.runs.unshift({title:presets[i][0],goal:goal||presets[i][1],steps:steps||presets[i][2],done:[]});save();renderWork();alert('A local workflow was created. No external action was performed.')}
+function showTemplates(){var best=selected($('goal').value);$('templates').innerHTML=presets.map(function(p,i){return '<div class="card"><span class="tag">'+(i===best?'Recommended':'Template')+'</span><h2>'+esc(p[0])+'</h2><p>'+esc(p[1])+'</p><button data-start="'+i+'" class="'+(i===best?'primary':'')+'">Start local checklist</button></div>'}).join('')}
+function renderWork(){$('count').textContent=db.runs.length;$('adds').textContent=db.kpis.radio==null?'—':db.kpis.radio;$('workflows').innerHTML=db.runs.length?db.runs.map(function(w,i){return '<div class="card" style="margin:12px 0"><h2>'+esc(w.title)+'</h2><p>'+esc(w.goal)+'</p>'+w.steps.map(function(s,j){return '<label style="font-weight:normal"><input type="checkbox" style="display:inline;width:auto;margin-right:10px" data-run="'+i+'" data-step="'+j+'" '+(w.done.indexOf(j)>=0?'checked':'')+'>'+esc(s)+'</label>'}).join('')+'</div>'}).join(''):'<div class="card"><p>No active workflows yet.</p></div>'}
+function page(p){['quick','studio','analytics','work'].forEach(function(s){$(s).classList.toggle('hidden',s!==p)});document.querySelectorAll('[data-page]').forEach(function(b){b.classList.toggle('active',b.dataset.page===p)});renderWork()}
+document.querySelectorAll('[data-page]').forEach(function(b){b.onclick=function(){page(b.dataset.page)}});
+$('goal').oninput=showTemplates;$('find').onclick=function(){showTemplates();$('templates').scrollIntoView({behavior:'smooth'})};
+$('templates').onclick=function(e){var b=e.target.closest('[data-start]');if(b)start(Number(b.dataset.start),$('goal').value.trim())};
+$('createPlan').onclick=function(){var g=$('complex').value.trim();if(!g){alert('Enter your goal first.');return}var i=selected(g);var p=presets[i];$('plan').innerHTML='<div class="card" style="margin-top:15px"><span class="tag">Rule-based draft · '+esc($('horizon').value)+' week plan</span><h2>'+esc(p[0])+'</h2><p>'+esc(g)+'</p><label for="draft">Edit your steps</label><textarea id="draft" style="min-height:200px">'+esc(p[2].join('\n'))+'</textarea><p>Manual tools: Catalog, Airtable approval queue, campaign tracker, press kit, royalty statements. Open your authorized accounts separately.</p><button id="addDraft" class="primary">Save as workflow</button></div>';$('addDraft').onclick=function(){var steps=$('draft').value.split(/\n+/).map(function(x){return x.trim()}).filter(Boolean);if(!steps.length)return;start(i,g,steps);page('work')}}; 
+$('workflows').onchange=function(e){var c=e.target;if(!c.hasAttribute('data-run'))return;var w=db.runs[Number(c.dataset.run)],j=Number(c.dataset.step);w.done=c.checked?Array.from(new Set(w.done.concat(j))):w.done.filter(function(n){return n!==j});save();renderWork()};
+$('saveActuals').onclick=function(){var a=$('radio').value,r=$('income').value;if(a===''&&r===''){alert('Enter at least one verified value.');return}if(a!==''&&(!Number.isInteger(Number(a))||Number(a)<0)){alert('Radio additions must be a nonnegative whole number');return}if(r!==''&&Number(r)<0){alert('Royalties must not be negative');return}db.kpis={radio:a===''?null:Number(a),income:r===''?null:Number(r)};save();renderWork();$('metricNotice').textContent='Saved in this browser only.'};
+showTemplates();renderWork();
+})();
+</script></body></html>
