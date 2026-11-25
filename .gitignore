@@ -1,0 +1,10 @@
+node_modules/
+installers/
+dist/
+.sites-runtime/
+.openai/
+.env*
+.dev.vars*
+*.pem
+*.tsbuildinfo
+.DS_Store
