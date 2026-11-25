@@ -1,0 +1,1 @@
+function isAllowedExternalUrl(value){try{const url=new URL(value);return !url.username&&!url.password&&['https:','mailto:'].includes(url.protocol);}catch{return false;}}module.exports={isAllowedExternalUrl};

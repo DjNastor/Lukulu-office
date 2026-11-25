@@ -1,10 +1,10 @@
 name: Build Lukulu HQ Android Preview APK
 on:
   push:
-    branches: ["upgrade/v41-operations-control-20261029"]
+    branches: ["upgrade/v42-review-and-packaging-20261125"]
   workflow_dispatch:
   pull_request:
-    branches: ["upgrade/v40-release-desk-android-20261029"]
+    branches: ["upgrade/v41-operations-control-20261029"]
 permissions:
   contents: read
 jobs:
@@ -35,6 +35,9 @@ jobs:
           mkdir -p app/src/main/assets app/src/main/java/za/co/lukulu/hq app/src/main/res/drawable
           cp index.html app/src/main/assets/index.html
           cp operations.html app/src/main/assets/operations.html
+          cp review.html app/src/main/assets/review.html
+          mkdir -p app/src/main/assets/assets
+          cp assets/lukulu-brand-banner.webp assets/lukulu-studio-portrait.jpg app/src/main/assets/assets/
           test -s app/src/main/assets/index.html
           test -s app/src/main/assets/operations.html
           cat > settings.gradle <<'EOF'
@@ -61,8 +64,8 @@ jobs:
               applicationId 'za.co.lukulu.hq'
               minSdk 24
               targetSdk 35
-              versionCode 41
-              versionName '0.41-preview'
+              versionCode 42
+              versionName '0.42.1-preview'
             }
             buildTypes { release { minifyEnabled false } }
             compileOptions {
@@ -150,12 +153,20 @@ jobs:
                   if ("https".equals(uri.getScheme()) &&
                       "appassets.androidplatform.net".equals(uri.getHost()) &&
                       ("/assets/index.html".equals(uri.getPath()) ||
-                       "/assets/operations.html".equals(uri.getPath()))) {
+                       "/assets/operations.html".equals(uri.getPath()) ||
+                       "/assets/review.html".equals(uri.getPath()))) {
                     try {
-                      String fileName="/assets/operations.html".equals(uri.getPath()) ? "operations.html" : "index.html";
+                      String fileName=uri.getPath().substring("/assets/".length());
                       InputStream in=getAssets().open(fileName);
                       return new WebResourceResponse("text/html","UTF-8",in);
                     } catch(IOException e) { return null; }
+                  }
+                  if ("https".equals(uri.getScheme()) && "appassets.androidplatform.net".equals(uri.getHost()) &&
+                      ("/assets/assets/lukulu-brand-banner.webp".equals(uri.getPath()) ||
+                       "/assets/assets/lukulu-studio-portrait.jpg".equals(uri.getPath()))) {
+                    try { return new WebResourceResponse(uri.getPath().endsWith(".webp") ? "image/webp" : "image/jpeg", null,
+                        getAssets().open(uri.getPath().substring("/assets/".length()))); }
+                    catch(IOException e) { return null; }
                   }
                   return null;
                 }
@@ -205,7 +216,7 @@ jobs:
           sha256sum app/build/outputs/apk/debug/app-debug.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: Lukulu-HQ-V41-Android-APK
+          name: Lukulu-HQ-V42-Android-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30

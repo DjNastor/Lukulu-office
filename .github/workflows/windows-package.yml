@@ -1,0 +1,27 @@
+name: Windows packages
+on:
+  workflow_dispatch:
+  push:
+    branches: ['upgrade/v42-review-and-packaging-20261125']
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build-win
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Lukulu-HQ-42.1-Windows
+          path: installers/*.exe
+          if-no-files-found: error
+          retention-days: 14
