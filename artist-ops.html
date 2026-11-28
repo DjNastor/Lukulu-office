@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08090d"><title>Lukulu HQ V43 | Artist Ops</title>
+<style>
+:root{color-scheme:dark;--bg:#08090d;--panel:#14171e;--line:#343945;--gold:#d7b461;--text:#f4f4f5;--muted:#b2b7c4;--bad:#f3b7a8}
+*{box-sizing:border-box}body{background:radial-gradient(ellipse at top right,#30271a,transparent 38%),var(--bg);color:var(--text);font:15px/1.55 system-ui,sans-serif;margin:0}main{max-width:1120px;margin:auto;padding:18px 16px 48px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:10px 0 22px}h1{font-size:clamp(29px,6vw,46px);line-height:1.12;margin:16px 0}h2{font-size:20px;margin:0 0 12px}p{color:var(--muted)}
+a{color:var(--gold)}button,input,textarea,select{font:inherit}button,a,input,textarea,select{outline-offset:3px}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gold)}
+button{cursor:pointer;background:#282c35;border:1px solid #565966;color:var(--text);border-radius:10px;padding:11px 14px;min-height:44px}button.primary{background:var(--gold);border-color:var(--gold);color:#101116;font-weight:750}button.warn{color:var(--bad)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:19px;min-width:0}form{display:grid;gap:12px}label{font-weight:650;display:block}input,textarea,select{background:#0b0c11;color:#fff;width:100%;border-radius:8px;border:1px solid #5b606b;min-height:44px;margin-top:6px;padding:10px}textarea{min-height:90px;resize:vertical}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.row.end{justify-content:space-between}.notice{border:1px solid #78643f;background:#292219;padding:13px 15px;border-radius:10px;margin:18px 0;color:#f5e4c5}.muted{color:var(--muted)}.mini{font-size:12px;color:var(--muted)}.item{border:1px solid #39404a;border-radius:10px;padding:14px;margin-top:12px;overflow-wrap:anywhere}.item h3{margin:0;font-size:16px}.item p{white-space:pre-wrap}.chip{display:inline-block;color:#f5d48c;border:1px solid #8a7348;border-radius:20px;padding:3px 8px;font-size:12px}.status{min-height:23px;color:var(--gold);margin:16px 0}footer{font-size:12px;color:var(--muted);padding:20px 0;border-top:1px solid var(--line);margin-top:26px}
+@media(max-width:740px){.grid{grid-template-columns:1fr}header{align-items:flex-start}.card{padding:15px}}
+</style></head><body><main>
+<header><div><strong style="color:var(--gold)">LUKULU</strong> HQ <span class="mini">/ V43 artist operations</span></div><a href="./operations.html">Back to Operations Control</a></header>
+<div class="mini" style="margin-top:25px;color:var(--gold)">LABEL OFFICE / PRIVATE COLLABORATION</div><h1>Artist Ops</h1>
+<p>Plan beat showcases, vocalist sessions, remix proposals and radio submissions. Records stay on this device. No invitation, master, contact, agreement or track is shared.</p>
+<div class="notice"><strong>Development mode — not a live artist portal.</strong> Rights and ownership require verified agreements before real sharing. This page cannot authenticate artists, synchronise Airtable or publish music. Avoid entering confidential files or private contact details.</div>
+<div id="message" class="status" role="status" aria-live="polite"></div>
+<div class="grid">
+<section class="card"><h2>New collaboration draft</h2>
+<form id="draftForm">
+<label>Project / beat title<input name="title" maxlength="120" required></label>
+<label>Artist / collaborator<input name="artist" maxlength="100" required></label>
+<label>Workflow<select name="type"><option>Beat showcase</option><option>Vocal session</option><option>Remix request</option><option>Artist interest</option><option>Radio submission</option></select></label>
+<label>Rights status<select name="rights"><option value="unverified">Unverified — block sharing</option><option value="pending">Review pending — block sharing</option><option value="owner-noted">Owner notes rights checked — still unverified here</option></select></label>
+<label>Private planning notes<textarea name="notes" maxlength="1000" placeholder="Describe intended collaboration and next steps. Do not paste unreleased file URLs or passwords."></textarea></label>
+<button class="primary" type="submit">Save private draft</button>
+</form></section>
+<section class="card"><div class="row end"><h2>Review queue <span id="count" class="chip">0</span></h2><button id="csv" type="button">Export CSV</button></div>
+<label>Filter<select id="filter"><option value="all">All</option><option value="blocked">Rights to review</option><option value="review">Waiting for owner</option></select></label>
+<div id="drafts" aria-live="polite"></div></section>
+</div>
+<div class="grid" style="margin-top:16px">
+<section class="card"><h2>Airtable roster · dated snapshot</h2><p>Six staged names were visible on 28 November 2026. All need confirmation; this is not evidence of representation, recording rights or permission to promote.</p><div id="roster"></div><p><a target="_blank" rel="noopener noreferrer" href="https://airtable.com/appR1QE70amevvq5y">Open source-of-truth Airtable roster</a></p></section>
+<section class="card"><h2>Backup and integration safety</h2><p>Export this device's private drafts as JSON before changing phone or browser. Importing a backup replaces the drafts here only.</p>
+<div class="row"><button id="export" type="button">Export JSON</button><button id="choose" type="button">Import JSON</button><input id="file" style="display:none" type="file" accept=".json,application/json" aria-label="Backup JSON file"></div>
+<p class="mini">Airtable: accessible but no synchronisation. Artist Growth: zero accessible artist profiles. Railway: no backend deployed. Tunio: a private station exists, but this Artist Ops file is not a streaming service.</p></section>
+</div>
+<footer>Lukulu HQ V43 · local development module · Black & Gold · No automatic external writes, emails, music sharing, spending or publishing.</footer>
+</main>
+<script>
+(function(){
+'use strict';
+var KEY='lukulu-hq-v43-artistops-private',MAX=300;
+var $=function(id){return document.getElementById(id);},records=[];
+var allowedType=['Beat showcase','Vocal session','Remix request','Artist interest','Radio submission'];
+var allowedRights=['unverified','pending','owner-noted'];
+var allowedStage=['Draft','Blocked — rights unverified','Awaiting owner review'];
+function notify(text){$('message').textContent=text}
+function validate(v){if(!v||v.version!==1||!Array.isArray(v.records)||v.records.length>MAX)throw Error('Invalid backup');return v.records.map(function(o){if(!o||typeof o!=='object'||typeof o.id!=='string'||o.id.length>90||typeof o.title!=='string'||o.title.length>120||typeof o.artist!=='string'||o.artist.length>100||!allowedType.includes(o.type)||!allowedRights.includes(o.rights)||!allowedStage.includes(o.stage)||typeof o.notes!=='string'||o.notes.length>1000)throw Error('Invalid draft');return{id:o.id,title:o.title,artist:o.artist,type:o.type,rights:o.rights,stage:o.stage,notes:o.notes}})}
+try{var raw=localStorage.getItem(KEY);if(raw)records=validate(JSON.parse(raw))}catch(e){notify('Saved data is unavailable or invalid. No existing backup has been overwritten.')}
+function save(message){try{localStorage.setItem(KEY,JSON.stringify({version:1,records:records}));notify(message||'Saved on this device only.')}catch(e){notify('Browser storage unavailable. Export a backup before leaving.')}render()}
+function el(tag,text,className){var node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node}
+function btn(text,click,cls){var b=el('button',text,cls);b.type='button';b.onclick=click;return b}
+function download(name,text,type){var u=URL.createObjectURL(new Blob([text],{type:type})),a=el('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1500)}
+function render(){var host=$('drafts');host.replaceChildren();$('count').textContent=String(records.length);var filter=$('filter').value,found=records.filter(function(o){return filter==='all'||filter==='blocked'&&o.rights!=='owner-noted'||filter==='review'&&o.stage==='Awaiting owner review'});if(!found.length){host.append(el('p','No projects in this view.'));return}found.forEach(function(o){var x=el('article',undefined,'item');x.append(el('h3',o.title+' · '+o.artist),el('p',o.type+' | '+o.rights+' | '+o.stage));if(o.notes)x.append(el('p',o.notes));var buttons=el('div',undefined,'row');if(o.stage!=='Awaiting owner review')buttons.append(btn('Request internal review',function(){if(o.rights!=='owner-noted'){o.stage='Blocked — rights unverified';return save('Blocked: rights must be reviewed before advancing. No sharing occurred.')}o.stage='Awaiting owner review';save('Internal preparation queue only; no external approval or sharing.')}));buttons.append(btn('Delete local draft',function(){if(!confirm('Delete this draft from this device?'))return;records=records.filter(function(y){return y.id!==o.id});save('Draft deleted from this device.')},'warn'));x.append(buttons);host.append(x)})}
+['DJ Nastor','Vorn Annunaki','Dubnakave','Aquatic','Da Cord','DJ Mbuso'].forEach(function(name){var x=el('div',undefined,'item');x.append(el('strong',name),el('div','Needs confirmation · Artist Growth not linked','mini'));$('roster').append(x)});
+$('draftForm').onsubmit=function(ev){ev.preventDefault();var d=Object.fromEntries(new FormData(ev.target)),title=d.title.trim(),artist=d.artist.trim();if(!title||!artist||records.length>=MAX){notify('Enter a project and artist, or export older records.');return}if(records.some(function(x){return x.title.toLowerCase()===title.toLowerCase()&&x.artist.toLowerCase()===artist.toLowerCase()&&x.type===d.type})){notify('This project draft already exists.');return}records.unshift({id:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2),title:title,artist:artist,type:d.type,rights:d.rights,notes:d.notes.trim(),stage:'Draft'});ev.target.reset();save('Private draft saved. Nothing was sent or shared.')};
+$('filter').onchange=render;
+function cell(v){var s=String(v);if(/^\s*[=+@-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}
+$('csv').onclick=function(){var lines=[['Title','Artist','Workflow','Rights','Stage','Notes']].concat(records.map(function(o){return[o.title,o.artist,o.type,o.rights,o.stage,o.notes]})).map(function(row){return row.map(cell).join(',')}).join('\r\n');download('Lukulu-V43-artist-ops.csv',lines,'text/csv;charset=utf-8');notify('CSV downloaded. Handle private planning notes carefully.')};
+$('export').onclick=function(){download('Lukulu-V43-artist-ops-backup.json',JSON.stringify({version:1,records:records},null,2),'application/json');notify('Backup downloaded. No cloud sync occurred.')};
+$('choose').onclick=function(){$('file').click()};
+$('file').onchange=async function(ev){try{var f=ev.target.files[0];if(!f)return;if(f.size>500000)throw Error('Too large');var next=validate(JSON.parse(await f.text()));if(confirm('Replace all local Artist Ops drafts with this backup?')){records=next;save('Backup imported to this device only.')}}catch(e){notify('Invalid backup. Nothing was changed.')}finally{ev.target.value=''}};
+render();
+})();
+</script></body></html>
