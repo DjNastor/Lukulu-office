@@ -1,5 +1,5 @@
 {
   "framework": null,
-  "buildCommand": "mkdir -p public && cp index.html operations.html public/",
+  "buildCommand": "mkdir -p public && cp index.html operations.html artist-ops.html public/",
   "outputDirectory": "public"
 }
